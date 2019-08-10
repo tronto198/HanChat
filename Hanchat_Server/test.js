@@ -9,7 +9,7 @@ const qs = require('querystring');
 const ProjectId = 'newagent-fxhlqn';
 const Dialogflow_keyfilePath = `${__dirname}/Data/newagent-fxhlqn-7a42dc304eee.json`;
 const TextDetector_keyfilePath = `${__dirname}/Data/NewAgent-TextDetection.json`;
-// The path to identify the agent that owns the created intent.
+
 
 function getPostRequest(req, callback){
 

@@ -76,5 +76,5 @@ typings/
 .fusebox/
 
 
-#key
-Data/JSON
+#api key files
+Data/JSON/*
