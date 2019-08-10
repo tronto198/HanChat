@@ -1,0 +1,3 @@
+[submodule "hanchat_server"]
+	path = hanchat_server
+	url = https://lab.hanium.or.kr/19-p187/hanchat_server.git
