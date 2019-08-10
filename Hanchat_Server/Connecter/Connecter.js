@@ -4,8 +4,8 @@ const keytoconfig = require('./KeytoConfig.js');
 const path = require('path');
 
 const Dialogflow_ProjectId = 'newagent-fxhlqn';
-const Dialogflow_keyfilePath = path.join(__dirname, '..', 'Data/JSON/newagent-Dialogflow.json');
-const TextDetector_keyfilePath = path.join(__dirname, '..', 'Data/JSON/NewAgent-TextDetection.json');
+const Dialogflow_keyfilePath = path.join(__dirname, '..', 'Data/JSON/APIkey-Dialogflow.json');
+const TextDetector_keyfilePath = path.join(__dirname, '..', 'Data/JSON/APIkey-GCPVision.json');
 
 
 class Connecter {
