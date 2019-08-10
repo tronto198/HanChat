@@ -98,7 +98,6 @@ class HTTPConnecter {
     }
 
 
-
     private class Sender extends Thread {
         private int timeout = 10000;
         private String _url = "";
