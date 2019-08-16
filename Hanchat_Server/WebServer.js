@@ -9,6 +9,9 @@ const Connecter = new conn();
 
 const app = express();
 app.use('/upload', express.static('upload'));
+app.use(()=>{
+  Connecter.printtime();
+});
 
 app.use(bodyParser.json({limit: '10mb', extended: true}));
 app.use(bodyParser.urlencoded({limit: '10mb', extended: true}));
@@ -40,4 +43,5 @@ app.post('/test', (req, res) =>{
 
 //throw new Error('test error');
 
+Connecter.printtime();
 module.exports = app;

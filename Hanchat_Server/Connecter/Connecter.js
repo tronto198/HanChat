@@ -8,6 +8,10 @@ const Dialogflow_keyfilePath = path.join(__dirname, '..', 'Data/JSON/APIkey-Dial
 const TextDetector_keyfilePath = path.join(__dirname, '..', 'Data/JSON/APIkey-GCPVision.json');
 
 
+const moment = require('moment');
+require('moment-timezone');
+moment.tz.setDefault("Asia/Seoul");
+
 class Connecter {
   constructor() {
     console.log('connecting...');
@@ -26,6 +30,10 @@ class Connecter {
     return result;
   }
 
+
+  printtime(){
+    console.log(moment().format('YYYY-MM-DD HH:mm:ss'));
+  }
 }
 
 module.exports = Connecter;

@@ -17,16 +17,16 @@ function senderrormsg(res, received){
 const log = function (req, res, next){
   console.log('\n\napptest/');
   next();
-}
+};
 
 
 const multer = require('multer');
 const storage = multer.diskStorage({
   destination: function(req, file, cb){
-    cb(null, 'upload/')
+    cb(null, 'upload/');
   },
   filename: function(req, file, cb){
-    cb(null, file.originalname)
+    cb(null, file.originalname);
   }
 });
 const upload = multer({storage : storage});
@@ -72,7 +72,7 @@ module.exports = function(Connecter){
       fs.writeFile('received.txt', image, (err)=>{
         if(err) return;
         console.log('finish');
-      })
+      });
 
     Connecter.sendtoVision(image).then((r) =>{
         console.log(r);
@@ -90,7 +90,7 @@ module.exports = function(Connecter){
     console.log('login : \n');
     console.log(body);
     res.json(body);
-  })
+  });
 
 
   apptest.post('/test', upload.single('userimage'), function(req, res){
@@ -121,4 +121,4 @@ module.exports = function(Connecter){
 
 
   return apptest;
-}
+};
