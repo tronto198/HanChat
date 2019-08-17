@@ -21,7 +21,7 @@ function gethtmllayout(title, head, description, text){
       </p>
     </body>
   </html>
-  `
+  `;
   return html;
 }
 function getchatbothtml(text){
@@ -44,20 +44,19 @@ function getimagehtml(text) {
   ` , text);
 }
 function gettesthtml(text){
-  return gethtmllayout('Dialogflow test', 'Dialogflow 테스트중', `
-  <form action="/net/test" method="post">
-    <input type="text" name="text", placeholder="말해보세요"
-    size=50>
-    <input type="submit">
+  return gethtmllayout('image test', '이미지 테스트중', `
+  <form action="/net/imagetest" method="post" enctype="multipart/form-data">
+      <input type="file" name="userimage">
+      <input type="submit" value="텍스트 추출">
   </form>
   `, text);
 }
 
 
 const log = function(req, res, next){
-  console.log('\n\nnet/');
+  process.stdout.write('net/');
   next();
-}
+};
 
 module.exports = function(Connecter){
   const express = require('express');
@@ -74,7 +73,7 @@ module.exports = function(Connecter){
   net.route('/chatbot')
   .post((req, res) =>{
     const body = req.body;
-    console.log('chatbot : \n');
+    console.log('chatbot');
     console.log(body);
 
     const text = body.text;
@@ -88,6 +87,7 @@ module.exports = function(Connecter){
 
   })
   .get((req, res) => {
+    console.log('chatbot');
     res.end(getchatbothtml(''));
   });
 
@@ -95,7 +95,7 @@ module.exports = function(Connecter){
   net.route('/image')
   .post((req, res) =>{
       const body = req.body;
-      console.log('image \n');
+      console.log('image');
 
       const image = body.image;
       Connecter.sendtoVision(image)
@@ -109,6 +109,7 @@ module.exports = function(Connecter){
         });
   })
   .get((req, res) =>{
+    console.log('image');
     res.end(getimagehtml(''));
   });
 
@@ -127,9 +128,56 @@ module.exports = function(Connecter){
   })
   .get((req, res) =>{
     res.end(gettesthtml(''));
-  })
+  });
 
+
+
+  const uploadpath = path.join(__dirname, '..', 'upload/');
+  const multer = require('multer');
+  const storage = multer.diskStorage({
+    destination: function(req, file, cb){
+      cb(null, uploadpath);
+    },
+    filename: function(req, file, cb){
+      cb(null, file.originalname);
+    }
+  });
+  const upload = multer({storage : storage});
+
+
+  net.route('/imagetest')
+  .post(upload.single('userimage'), (req, res) =>{
+    console.log('/imagetest :');
+    const body = req.body;
+    console.log('body -');
+    console.log(body);
+    console.log(decodeURI(body.text));
+
+    const file = req.file;
+    console.log('file -');
+    console.log(req.file);
+
+    const description = fs.readFileSync(uploadpath + file.filename);
+
+    var encoded = Buffer.from(description).toString('base64');
+    console.log(encoded);
+
+    Connecter.sendtoVision(encoded).then((r) =>{
+        console.log(r);
+        var result = r.textAnnotations[0].description;
+        res.send(gettesthtml(result));
+      })
+      .catch(err =>{
+        console.log(err);
+        //senderrormsg(res, image);
+        res.send(gettesthtml(err));
+      });
+
+  })
+  .get((req, res) =>{
+    res.end(gettesthtml(''));
+  });
 
 
   return net;
-}
+};

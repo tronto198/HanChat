@@ -9,8 +9,11 @@ const Connecter = new conn();
 
 const app = express();
 app.use('/upload', express.static('upload'));
-app.use(()=>{
+app.use((req, res, next)=>{
+  console.log('\n');
   Connecter.printtime();
+  process.stdout.write('/');
+  next();
 });
 
 app.use(bodyParser.json({limit: '10mb', extended: true}));
@@ -39,6 +42,9 @@ app.post('/test', (req, res) =>{
     });
 
 });
+
+
+
 
 
 //throw new Error('test error');

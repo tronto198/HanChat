@@ -17,7 +17,7 @@ import java.util.Map;
 import java.util.Random;
 
 
-//8.9  경고 수정
+//8.16  경고 수정
 
 //먼저 맨위의 패키지 이름부터 바꾸고
 //AndroidManifest.xml 파일에서 <uses-permission android:name="android.permission.INTERNET" /> 추가
@@ -319,7 +319,7 @@ class HTTPConnecter {
                 int maxBufferSize = 5 * 1024 * 1024;
 
                 ds.writeBytes(msgbegin);
-                ds.writeBytes("Content-Disposition: form-data; name=\"image\"; filename=\"imagefile\"");
+                ds.writeBytes("Content-Disposition: form-data; name=\"userimage\"; filename=\"imagefile\"");
 
                 //이 문장은 써야하는지 모르겟
                 //ds.writeBytes(lineEnd + "Content-Type: application/octet-stream");

@@ -15,15 +15,16 @@ function senderrormsg(res, received){
 }
 
 const log = function (req, res, next){
-  console.log('\n\napptest/');
+  process.stdout.write('apptest/');
   next();
 };
 
-
+const path = require('path');
+const uploadpath = path.join(__dirname, '..', 'upload/');
 const multer = require('multer');
 const storage = multer.diskStorage({
   destination: function(req, file, cb){
-    cb(null, 'upload/');
+    cb(null, uploadpath);
   },
   filename: function(req, file, cb){
     cb(null, file.originalname);
@@ -46,7 +47,6 @@ module.exports = function(Connecter){
 
     const text = body.text;
     if(text == "" || text == undefined){
-      console.log("bye");
       res.send("nothing");
       return;
     }
@@ -98,14 +98,15 @@ module.exports = function(Connecter){
     const body = req.body;
     console.log('body -');
     console.log(body);
-    console.log(body.text);
     console.log(decodeURI(body.text));
 
     const file = req.file;
     console.log('file -');
     console.log(req.file);
 
-    var encoded = Buffer.from(file).toString('base64');
+    const description = fs.readFileSync(uploadpath + file.filename);
+
+    var encoded = Buffer.from(description).toString('base64');
 
     Connecter.sendtoVision(encoded).then((r) =>{
         console.log(r);
@@ -113,7 +114,7 @@ module.exports = function(Connecter){
       })
       .catch(err =>{
         console.log(err);
-        senderrormsg(res, image);
+        senderrormsg(res, error);
       });
 
 
