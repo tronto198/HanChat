@@ -18,7 +18,7 @@ const log = function (req, res, next){
   process.stdout.write('apptest/');
   next();
 };
-
+/*
 const path = require('path');
 const uploadpath = path.join(__dirname, '..', 'upload/');
 const multer = require('multer');
@@ -31,6 +31,7 @@ const storage = multer.diskStorage({
   }
 });
 const upload = multer({storage : storage});
+*/
 
 
 
@@ -87,13 +88,13 @@ module.exports = function(Connecter){
 
   apptest.post('/login', (req, res) =>{
     const body = req.body;
-    console.log('login : \n');
+    console.log('login : ');
     console.log(body);
     res.json(body);
   });
 
 
-  apptest.post('/test', upload.single('userimage'), function(req, res){
+  apptest.post('/test', Connecter.upload.single('userimage'), function(req, res){
     console.log('test :');
     const body = req.body;
     console.log('body -');
@@ -104,7 +105,7 @@ module.exports = function(Connecter){
     console.log('file -');
     console.log(req.file);
 
-    const description = fs.readFileSync(uploadpath + file.filename);
+    const description = fs.readFileSync(Connecter.uploadpath + file.filename);
 
     var encoded = Buffer.from(description).toString('base64');
 
