@@ -1,5 +1,6 @@
-var dd = require('./WebServer.js');
-
+var app = require('./WebServer.js');
 const Portnumber = 55252;
 
-dd.listen(Portnumber, () => console.log(`Server start at : ${Portnumber}`));
+app = new app();
+
+app.listen(Portnumber, () => console.log(`Server start at : ${Portnumber}`));
