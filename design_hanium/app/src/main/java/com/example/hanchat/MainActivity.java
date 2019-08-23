@@ -10,6 +10,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.widget.Toolbar;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.Toast;
 
 import java.util.HashMap;
@@ -22,6 +23,9 @@ public class MainActivity extends TapActivity
     String chat = "";
 
     HTTPConnecter connecter;
+
+    ListView listView;
+    ChatAdapter chatAdapter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,6 +44,7 @@ public class MainActivity extends TapActivity
 //            }
 //        });
 
+
         //우측 상단 버튼 (캘린더 화면으로 이동)
         Button button_cal = findViewById(R.id.button_cal);
         button_cal.setOnClickListener(new View.OnClickListener() {
@@ -50,6 +55,7 @@ public class MainActivity extends TapActivity
             }
         });
 
+
         // 네비게이션 서랍
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         NavigationView navigationView = findViewById(R.id.nav_view);
@@ -58,54 +64,64 @@ public class MainActivity extends TapActivity
         drawer.addDrawerListener(toggle);
         toggle.syncState();
         navigationView.setNavigationItemSelectedListener(this);
-//
-//        // 아이디, 비밀번호 데이터 전송 (HTTPConnecter)
-//        chat_text = findViewById(R.id.chat_text);
-//
-//        connecter = new HTTPConnecter("18.219.204.210", 55252);
-//
-//        Button chat_submitbutton = findViewById(R.id.chat_submitbutton);
-//        chat_submitbutton.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                chat = chat_text.getText().toString();
-//
-//                try{
-//                    //서버로 보낼 내용 : des
-//
-//                    Map<String, String> data = new HashMap<>() ;
-//                    data.put("id", chat);
-//
-//                    //커넥터를 이용해 send
-//                    connecter.Post("/chatbot_data", data, new HTTPConnecter.Callback() {
-//                        String str;
-//
-//                        //여기는 데이터를 받아서 가공하는 곳
-//                        @Override
-//                        public Object DataReceived(String ReceiveString) {
-//                            str = ReceiveString;    //저장한 데이터를 기록으로 사용하자!!
-//
-//                            return ReceiveString;
-//
-//                            //일단 여기서는 텍스트를 받기만 하므로 그대로 리턴
-//                        }
-//
-//
-//                        //여기는 가공한 데이터를 받아서 화면에 보여주는 곳
-//                        @Override
-//                        public void HandlerMethod(Object obj) {
-//                            //위의 함수에서 받은 내용을 토스트메시지로 출력
-//                            Toast.makeText(getApplicationContext(), (String) obj, Toast.LENGTH_LONG).show();
-//                        }
-//                    });
-//                }
-//                catch (Exception e){
-//                    //예외처리
-//                    e.printStackTrace();
-//                }
-//
-//            }
-//        });
+
+
+        //채팅 리스트 관리하는 어댑터 객체 생성
+        chatAdapter =  new ChatAdapter();
+        listView = (ListView) findViewById(R.id.listView1);
+
+        listView.setAdapter(chatAdapter);
+
+
+        // 채팅 데이터 전송 (HTTPConnecter)
+        chat_text = findViewById(R.id.chat_text);
+
+        connecter = new HTTPConnecter("18.219.204.210", 55252);
+
+        Button chat_submitbutton = findViewById(R.id.chat_submitbutton);
+        chat_submitbutton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                chat = chat_text.getText().toString();
+
+                try{
+                    //서버로 보낼 내용 : des
+
+                    Map<String, String> data = new HashMap<>() ;
+                    data.put("id", chat);
+
+                    //커넥터를 이용해 send
+                    connecter.Post("/chatbot_data", data, new HTTPConnecter.Callback() {
+                        String str;
+
+                        //여기는 데이터를 받아서 가공하는 곳
+                        @Override
+                        public Object DataReceived(String ReceiveString) {
+                            str = ReceiveString;    //저장한 데이터를 기록으로 사용
+                            chatAdapter.add(str, 1);    // 0은 챗봇, 1은 사용자, 2는 날짜 구분선
+
+                            return ReceiveString;
+
+                            //일단 여기서는 텍스트를 받기만 하므로 그대로 리턴
+                        }
+
+
+                        //여기는 가공한 데이터를 받아서 화면에 보여주는 곳
+                        @Override
+                        public void HandlerMethod(Object obj) {
+                            //위의 함수에서 받은 내용을 토스트메시지로 출력
+                            Toast.makeText(getApplicationContext(), (String) obj, Toast.LENGTH_LONG).show();
+                        }
+                    });
+                }
+                catch (Exception e){
+                    //예외처리
+                    e.printStackTrace();
+                }
+
+            }
+        });
+        // 채팅 데이터 전송 끝 (HTTPConnecter)
 
     }
 }

@@ -1,18 +1,53 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-xmlns:app="http://schemas.android.com/apk/res-auto"
-xmlns:tools="http://schemas.android.com/tools"
-android:layout_width="match_parent"
-android:layout_height="match_parent"
-app:layout_behavior="@string/appbar_scrolling_view_behavior"
-tools:context=".MainActivity"
-tools:showIn="@layout/app_bar_main">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    tools:context=".MainActivity"
+    tools:showIn="@layout/app_bar_main"
+    >
 
+    <!-- 입력창-->
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:id="@+id/linearLayout1"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        >
+            <ListView
+                android:id="@+id/listView1"
+                android:listSelector="#00000000"
+                android:cacheColorHint="#00000000"
+                android:divider="#000000"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:transcriptMode="alwaysScroll"/>
+    </LinearLayout>
+    <!-- 입력창 -->
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:background="?attr/colorPrimary"
+        android:layout_below="@id/linearLayout1"
+        android:orientation="horizontal">
+        <TextView
+            android:layout_width="20dp"
+            android:layout_height="wrap_content"
+            />
+        <EditText
+            android:hint="메세지를 입력하세요"
+            android:id="@+id/chat_text"
+            android:inputType="textMultiLine"
+            android:maxLines="4"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"/>
 
-<TextView
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_margin="@dimen/text_margin"
-    android:text="@string/large_text"/>
+        <Button
+            android:id="@+id/chat_submitbutton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="전송" />
 
-</android.support.v4.widget.NestedScrollView>
+        </LinearLayout>
+</LinearLayout>

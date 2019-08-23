@@ -69,6 +69,8 @@ public class LoginActivity extends AppCompatActivity {
 
             }
         });
+        // 아이디, 비밀번호 데이터 전송 끝 (HTTPConnecter)
+
     }
 
 }
