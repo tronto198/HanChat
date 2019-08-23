@@ -1,63 +1,18 @@
 const fs = require('fs');
 const path = require('path');
+const layout = require('./htmllayout');
+html = new layout();
 
-function gethtmllayout(title, head, description, text){
-  const html =`
-  <!doctype html>
-  <html>
-    <head>
-      <title> ${title} </title>
-      <meta charset='utf-8'>
-    </head>
-    <body>
-      <p>
-        <h3><a href="/net/"><-</a> ${head} </h3>
-      </p>
-      <p>
-        ${description}
-      </p>
-      <p>
-        ${text}
-      </p>
-    </body>
-  </html>
-  `
-  return html;
-}
-function getchatbothtml(text){
-  return gethtmllayout('Dialogflow test', 'Dialogflow 테스트중', `
-  <form action="/net/chatbot" method="post">
-    <input type="text" name="text", placeholder="말해보세요"
-    size=50>
-    <input type="submit">
-  </form>
-  `, text);
-}
-function getimagehtml(text) {
-  return gethtmllayout('image test', '이미지 테스트중',`
-    <form action="/net/image", method="post">
-      <TEXTAREA name="image" cols=70 rows=15 placeholder="base64 encoded image"
-      value=""></textarea>
-      <br>
-      <input type="submit">
-    </form>
-  ` , text);
-}
-function gettesthtml(text){
-  return gethtmllayout('Dialogflow test', 'Dialogflow 테스트중', `
-  <form action="/net/test" method="post">
-    <input type="text" name="text", placeholder="말해보세요"
-    size=50>
-    <input type="submit">
-  </form>
-  `, text);
-}
+gethtmllayout = html.gethtmllayout;
+getimagehtml = html.getimagehtml;
+getchatbothtml = html.getchatbothtml;
+gettesthtml = html.gettesthtml;
 
 
 const log = function(req, res, next){
-  console.log('\n\nnet/');
+  process.stdout.write('net/');
   next();
-}
+};
 
 module.exports = function(Connecter){
   const express = require('express');
@@ -74,7 +29,7 @@ module.exports = function(Connecter){
   net.route('/chatbot')
   .post((req, res) =>{
     const body = req.body;
-    console.log('chatbot : \n');
+    console.log('chatbot');
     console.log(body);
 
     const text = body.text;
@@ -88,6 +43,7 @@ module.exports = function(Connecter){
 
   })
   .get((req, res) => {
+    console.log('chatbot');
     res.end(getchatbothtml(''));
   });
 
@@ -95,7 +51,7 @@ module.exports = function(Connecter){
   net.route('/image')
   .post((req, res) =>{
       const body = req.body;
-      console.log('image \n');
+      console.log('image');
 
       const image = body.image;
       Connecter.sendtoVision(image)
@@ -109,12 +65,14 @@ module.exports = function(Connecter){
         });
   })
   .get((req, res) =>{
+    console.log('image');
     res.end(getimagehtml(''));
   });
 
 
   net.route('/test')
   .post((req, res) =>{
+    console.log('test');
     const body = req.body;
     const text = body.text;
     Connecter.sendtoDialogflow(text, 'test-id').then((r)=>{
@@ -126,10 +84,49 @@ module.exports = function(Connecter){
     });
   })
   .get((req, res) =>{
+    console.log('test');
     res.end(gettesthtml(''));
-  })
+  });
 
+
+
+  net.route('/imagetest')
+  .post(Connecter.upload.single('userimage'), (req, res) =>{
+    console.log('imagetest :');
+    const body = req.body;
+    console.log('body -');
+    console.log(body);
+    console.log(decodeURI(body.text));
+
+    const file = req.file;
+    console.log('file -');
+    console.log(req.file);
+    if(file == undefined){
+      res.end('nothing');
+      return;
+    }
+
+    const description = fs.readFileSync(Connecter.uploadpath + file.filename);
+
+    var encoded = Buffer.from(description).toString('base64');
+
+    Connecter.sendtoVision(encoded).then((r) =>{
+        console.log(r);
+        var result = r.textAnnotations[0].description;
+        res.send(gettesthtml(result));
+      })
+      .catch(err =>{
+        console.log(err);
+        //senderrormsg(res, image);
+        res.send(gettesthtml(err));
+      });
+
+  })
+  .get((req, res) =>{
+    console.log('imagetest');
+    res.end(gettesthtml(''));
+  });
 
 
   return net;
-}
+};
