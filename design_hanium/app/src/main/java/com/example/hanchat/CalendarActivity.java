@@ -20,30 +20,12 @@ public class CalendarActivity extends TapActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_calendar);
 
-        //툴바
+        /* 앱 상단 툴바 */
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        // fab 필요 하면 appbar에서 주석 풀기
-//        FloatingActionButton fab = findViewById(R.id.fab);
-//        fab.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-//                        .setAction("Action", null).show();
-//            }
-//        });
 
-        //우측 상단 버튼 (메인 화면으로 이동)
-        Button button_chat = findViewById(R.id.button_chat);
-        button_chat.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(CalendarActivity.this, MainActivity.class);
-                startActivity(intent);
-            }
-        });
 
-        // 네비게이션 서랍
+        /* 좌측 상단 토글 (네비게이션 서랍) */
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         NavigationView navigationView = findViewById(R.id.nav_view);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -52,6 +34,15 @@ public class CalendarActivity extends TapActivity
         toggle.syncState();
         navigationView.setNavigationItemSelectedListener(this);
 
-    }
 
+        /* 우측 상단 버튼 (캘린더 화면으로 이동) */
+        Button button_chat = findViewById(R.id.button_chat);
+        button_chat.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(CalendarActivity.this, MainActivity.class);
+                startActivity(intent);
+            }
+        });
+    }
 }

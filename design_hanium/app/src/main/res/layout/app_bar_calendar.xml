@@ -21,8 +21,8 @@
 
             <Button
                 android:id="@+id/button_chat"
-                android:layout_width="40dp"
-                android:layout_height="wrap_content"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
                 android:layout_gravity="end"
                 android:background="@drawable/chat"
 
