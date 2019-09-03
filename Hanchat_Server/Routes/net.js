@@ -35,7 +35,14 @@ module.exports = function(Connecter){
     const text = body.text;
     Connecter.sendtoDialogflow(text, 'net-id').then((r)=>{
       res.send(getchatbothtml(r.queryResult.fulfillmentText));
+      var no = Math.floor(Math.random() * (100000));
+      var name = r.queryResult.fulfillmentText;
+      console.log(r);
+      console.log(r.queryResult.parameters.fields);
 
+      Connecter.query(`insert into tester values(${no}, "${name}");`,(err, rows, fields)=>{
+
+      });
     }).catch((err)=>{
       res.send(getchatbothtml(err));
       console.log(err);

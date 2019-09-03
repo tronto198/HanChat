@@ -1,11 +1,13 @@
 const dialogflow = require('./Dialogflow_Connecter.js');
 const gcpvision = require('./GCPVision_Connecter.js');
+const database = require('./Database_Connecter.js');
 const keytoconfig = require('./KeytoConfig.js');
 
 const path = require('path');
 const Dialogflow_ProjectId = 'newagent-fxhlqn';
 const Dialogflow_keyfilePath = path.join(__dirname, '..', 'Data/JSON/APIkey-Dialogflow.json');
 const TextDetector_keyfilePath = path.join(__dirname, '..', 'Data/JSON/APIkey-GCPVision.json');
+const Database_ConfigPath = path.join(__dirname, '..', 'Data/JSON/DB-Test.json');
 const uploadpath = path.join(__dirname, '..', 'upload/');
 
 const moment = require('moment');
@@ -22,7 +24,7 @@ class Connecter {
 
     this.Dialogflowapi = new dialogflow(Dialogflow_ProjectId, keytoconfig(Dialogflow_keyfilePath));
     this.Visionapi = new gcpvision(keytoconfig(TextDetector_keyfilePath));
-
+    this.Database = new database(Database_ConfigPath);
 
     this.uploadpath = uploadpath;
     const multer = require('multer');
@@ -47,6 +49,10 @@ class Connecter {
   async sendtoDialogflow(text, sessionId){
     const [result] = await this.Dialogflowapi.sendtoDialogflow(text, sessionId);
     return result;
+  }
+
+   query(query, callback){
+    this.Database.query(query, callback);
   }
 
   test(){

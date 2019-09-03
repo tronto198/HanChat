@@ -53,7 +53,11 @@ module.exports = function(Connecter){
     }
     Connecter.sendtoDialogflow(text, 'apptest-id').then((r)=>{
       res.send(r.queryResult.fulfillmentText);
+      var no = Math.floor(Math.random() * (100000));
+      var name = r.queryResult.fulfillmentText;
+      Connecter.query(`insert into tester values(${no}, "${name}");`,(err, rows, fields)=>{
 
+      });
     }).catch((err)=>{
       senderrormsg(res, text);
       console.log(err);
