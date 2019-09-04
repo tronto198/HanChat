@@ -31,6 +31,7 @@ public class MainActivity extends AppCompatActivity {
         connecter = new HTTPConnecter(ip, 55252);
 
         Button bt_start = (Button) findViewById(R.id.bt_start);
+        /*
         bt_start.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -81,6 +82,9 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
+        */
+
+        bt_start.setOnClickListener(new buttonaction(this, connecter, tb_des));
     }
 
 }
