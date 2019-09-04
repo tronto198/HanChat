@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:Activity="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <EditText
+        android:id="@+id/et_chat"
+        android:layout_width="0dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        android:ems="10"
+        android:inputType="textPersonName"
+        Activity:layout_constraintBottom_toBottomOf="parent"
+        Activity:layout_constraintEnd_toStartOf="@+id/bt_chat"
+        Activity:layout_constraintStart_toEndOf="@+id/bt_image" />
+
+    <Button
+        android:id="@+id/bt_chat"
+        android:layout_width="64dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        android:text="전송"
+        Activity:layout_constraintBottom_toBottomOf="parent"
+        Activity:layout_constraintEnd_toEndOf="parent"
+        Activity:layout_constraintStart_toEndOf="@+id/et_chat" />
+
+    <Button
+        android:id="@+id/bt_image"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        android:text="+"
+        Activity:layout_constraintBottom_toBottomOf="parent"
+        Activity:layout_constraintEnd_toStartOf="@+id/et_chat"
+        Activity:layout_constraintStart_toStartOf="parent" />
+
+</android.support.constraint.ConstraintLayout>
