@@ -6,7 +6,8 @@ import android.widget.EditText;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
-import org.json.JSONObject;
+import java.util.Map;
+import java.util.HashMap;
 
 public class LoginActivity extends AppCompatActivity {
     EditText id_text;
@@ -21,6 +22,7 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
+        // 아이디, 비밀번호 데이터 전송 (HTTPConnecter)
         id_text = findViewById(R.id.id_text);
         pswd_text = findViewById(R.id.pswd_text);
 
@@ -35,26 +37,20 @@ public class LoginActivity extends AppCompatActivity {
 
                 try{
                     //서버로 보낼 내용 : des
-                    //먼저 Json 형식으로 변환
-                    JSONObject json = new JSONObject();
 
+                    Map<String, String> data = new HashMap<>() ;
                     //텍스트 처리는 text, 이미지 처리는 image
-                    json.put("id", id);
-                    json.put("pswd", pswd);
-                    String jsondata = json.toString();
+                    data.put("id", id);
+                    data.put("pswd", pswd);
 
-                    //커넥터를 이용해 sendJSON
-                    connecter.sendJSON("/chatbot_data", jsondata, new HTTPConnecter.Callback() {
-                        //String str;
-
+                    //커넥터를 이용해 send
+                    // chatbot_data 경로 대신 로그인 경로를 지정!!
+                    connecter.Post("/chatbot_data", data, new HTTPConnecter.Callback() {
                         //여기는 데이터를 받아서 가공하는 곳
                         @Override
                         public Object DataReceived(String ReceiveString) {
-                            //str = ReceiveString;      // 이런 식으로 저장해서 밑으로 넘길수도 있고
 
-                            return ReceiveString;       // 이런 식으로 return으로 넘길 수도 있음
-
-                            //일단 여기서는 텍스트를 받기만 하므로 그대로 리턴
+                            return ReceiveString;
                         }
 
 
