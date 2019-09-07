@@ -6,6 +6,10 @@ const fs = require('fs');
 const conn = require('./Connecter/Connecter.js');
 const Connecter = new conn();
 
+Connecter.query('Select * from tester', (err, rows, fields)=>{
+  console.log(rows);
+});
+
 class app{
   constructor(){
     const app = express();
@@ -63,9 +67,9 @@ class app{
 
 
 
-
+const application = new app();
 
 
 
 //throw new Error('test error');
-module.exports = app;
+module.exports = application;
