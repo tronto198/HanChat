@@ -19,16 +19,13 @@ public class CalendarActivity extends TapActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_calendar);
+
+        /* 앱 상단 툴바 */
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        FloatingActionButton fab = findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
+
+
+        /* 좌측 상단 토글 (네비게이션 서랍) */
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         NavigationView navigationView = findViewById(R.id.nav_view);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -37,7 +34,8 @@ public class CalendarActivity extends TapActivity
         toggle.syncState();
         navigationView.setNavigationItemSelectedListener(this);
 
-        //우측 상단 Calendar -> Main 이동 버튼
+
+        /* 우측 상단 버튼 (캘린더 화면으로 이동) */
         Button button_chat = findViewById(R.id.button_chat);
         button_chat.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -47,5 +45,4 @@ public class CalendarActivity extends TapActivity
             }
         });
     }
-
 }

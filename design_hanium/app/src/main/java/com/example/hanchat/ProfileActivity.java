@@ -19,6 +19,7 @@ public class ProfileActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
 
+        // 길게 클릭 시 아이디 복사
         editText_id = findViewById(R.id.editText_id);
         editText_id.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
@@ -30,10 +31,10 @@ public class ProfileActivity extends AppCompatActivity {
             }
         });
     }
-
+    // 클립보드에 아이디 복사
     public void setOnClipBoard(String user_id) {
         ClipboardManager clipboardManager = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
-        ClipData clipData = ClipData.newPlainText("Test Clipboard", user_id);
+        ClipData clipData = ClipData.newPlainText("Clip Data", user_id);
         clipboardManager.setPrimaryClip(clipData);
     }
 }

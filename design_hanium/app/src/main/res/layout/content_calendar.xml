@@ -10,20 +10,20 @@
 
     <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="88dp">
+        android:layout_height="53dp">
 
     </FrameLayout>
 
     <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="419dp">
-    <!-- 임시로 넣은 캘린더고 API나 우리가 디자인(개발) 해서 넣어야할 것 같아-->
+        android:layout_height="601dp">
+        <!-- 임시로 넣은 캘린더고 API나 우리가 디자인(개발) 해서 넣어야할 것 같아-->
         <CalendarView
             android:id="@+id/calendarView"
-            android:layout_width="305dp"
+            android:layout_width="378dp"
 
-            android:layout_gravity="center"
-            android:layout_height="389dp" />
+            android:layout_height="582dp"
+            android:layout_gravity="center" />
 
     </FrameLayout>
 

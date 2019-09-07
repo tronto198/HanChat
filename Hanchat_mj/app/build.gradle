@@ -28,4 +28,5 @@ dependencies {
 
     //image load_mj
     implementation "gun0912.ted:tedpermission:2.1.0"
+
 }

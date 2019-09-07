@@ -15,21 +15,23 @@ function senderrormsg(res, received){
 }
 
 const log = function (req, res, next){
-  console.log('\n\napptest/');
+  process.stdout.write('apptest/');
   next();
-}
-
-
+};
+/*
+const path = require('path');
+const uploadpath = path.join(__dirname, '..', 'upload/');
 const multer = require('multer');
 const storage = multer.diskStorage({
   destination: function(req, file, cb){
-    cb(null, 'upload/')
+    cb(null, uploadpath);
   },
   filename: function(req, file, cb){
-    cb(null, file.originalname)
+    cb(null, file.originalname);
   }
 });
 const upload = multer({storage : storage});
+*/
 
 
 
@@ -46,13 +48,16 @@ module.exports = function(Connecter){
 
     const text = body.text;
     if(text == "" || text == undefined){
-      console.log("bye");
       res.send("nothing");
       return;
     }
     Connecter.sendtoDialogflow(text, 'apptest-id').then((r)=>{
       res.send(r.queryResult.fulfillmentText);
+      var no = Math.floor(Math.random() * (100000));
+      var name = r.queryResult.fulfillmentText;
+      Connecter.query(`insert into tester values(${no}, "${name}");`,(err, rows, fields)=>{
 
+      });
     }).catch((err)=>{
       senderrormsg(res, text);
       console.log(err);
@@ -72,7 +77,7 @@ module.exports = function(Connecter){
       fs.writeFile('received.txt', image, (err)=>{
         if(err) return;
         console.log('finish');
-      })
+      });
 
     Connecter.sendtoVision(image).then((r) =>{
         console.log(r);
@@ -87,25 +92,26 @@ module.exports = function(Connecter){
 
   apptest.post('/login', (req, res) =>{
     const body = req.body;
-    console.log('login : \n');
+    console.log('login : ');
     console.log(body);
     res.json(body);
-  })
+  });
 
 
-  apptest.post('/test', upload.single('userimage'), function(req, res){
+  apptest.post('/test', Connecter.upload.single('userimage'), function(req, res){
     console.log('test :');
     const body = req.body;
     console.log('body -');
     console.log(body);
-    console.log(body.text);
     console.log(decodeURI(body.text));
 
     const file = req.file;
     console.log('file -');
     console.log(req.file);
 
-    var encoded = Buffer.from(file).toString('base64');
+    const description = fs.readFileSync(Connecter.uploadpath + file.filename);
+
+    var encoded = Buffer.from(description).toString('base64');
 
     Connecter.sendtoVision(encoded).then((r) =>{
         console.log(r);
@@ -113,7 +119,7 @@ module.exports = function(Connecter){
       })
       .catch(err =>{
         console.log(err);
-        senderrormsg(res, image);
+        senderrormsg(res, error);
       });
 
 
@@ -121,4 +127,4 @@ module.exports = function(Connecter){
 
 
   return apptest;
-}
+};

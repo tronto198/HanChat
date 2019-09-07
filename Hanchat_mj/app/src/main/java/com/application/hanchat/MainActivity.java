@@ -7,11 +7,18 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
+import android.widget.Button;
+import android.widget.EditText;
+
 
 public class MainActivity extends AppCompatActivity {
 
     HTTPConnecter connecter;
+
     ImageManagement_mj imageManagement;
+
     final String IP = "18.219.204.210";
 
     EditText et_chat;
@@ -36,6 +43,7 @@ public class MainActivity extends AppCompatActivity {
     private void ButtonSetting(){
         bt_chat.setOnClickListener(new ButtonAction(this, connecter, et_chat));
     }
+
     // + 버튼 눌렀을때 실행됨(나 다른방법 써서 버튼 세팅 안할듯)
     public void loadImagefromGallery(View view) {
 
