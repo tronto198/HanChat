@@ -22,7 +22,7 @@ import android.util.Base64;
 import com.gun0912.tedpermission.PermissionListener;
 import com.gun0912.tedpermission.TedPermission;
 
-
+//깃허브 테스트
 public class ImageManagement_mj{//} extends AppCompatActivity {
 
     Bitmap image; //사용되는 이미지
