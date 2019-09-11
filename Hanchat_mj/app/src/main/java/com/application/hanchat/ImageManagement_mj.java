@@ -23,7 +23,7 @@ import com.gun0912.tedpermission.PermissionListener;
 import com.gun0912.tedpermission.TedPermission;
 
 
-public class ImageManagement_mj extends AppCompatActivity {
+public class ImageManagement_mj{//} extends AppCompatActivity {
 
     Bitmap image; //사용되는 이미지
     public Uri uri;
@@ -31,6 +31,15 @@ public class ImageManagement_mj extends AppCompatActivity {
     static int PICK_IMAGE_REQUEST = 1;
 
     static final String TAG = "MainActivity";
+    AppCompatActivity MainActivity;
+    HTTPConnecter connecter;
+
+    ImageManagement_mj(AppCompatActivity Activity, HTTPConnecter connecter){
+        MainActivity = Activity;
+        this.connecter = connecter;
+        //Activity.onActivityResult += this.onActivityResult;
+    }
+
 
     //권한요청
     public void tedPermission() {
@@ -47,10 +56,10 @@ public class ImageManagement_mj extends AppCompatActivity {
             }
         };
 
-        TedPermission.with(this)
+        TedPermission.with(MainActivity)
                 .setPermissionListener(permissionListener)
-                .setRationaleMessage(getResources().getString(R.string.permission_2))
-                .setDeniedMessage(getResources().getString(R.string.permission_1))
+                .setRationaleMessage(MainActivity.getResources().getString(R.string.permission_2))
+                .setDeniedMessage(MainActivity.getResources().getString(R.string.permission_1))
                 .setPermissions(Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.CAMERA)
                 .check();
 
@@ -61,22 +70,23 @@ public class ImageManagement_mj extends AppCompatActivity {
         Intent intent = new Intent(Intent.ACTION_GET_CONTENT); //ACTION_PIC과 차이점?
         intent.setType("image/*"); //이미지만 보이게
         //Intent 시작 - 갤러리앱을 열어서 원하는 이미지를 선택할 수 있다.
-        startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_IMAGE_REQUEST);
-        Toast.makeText(this, "원하는 이미지 선택", Toast.LENGTH_LONG).show();
+        MainActivity.startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_IMAGE_REQUEST);
+        Toast.makeText(MainActivity, "원하는 이미지 선택", Toast.LENGTH_LONG).show();
 
     }
 
     //이미지 선택작업 후의 결과 처리
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
+
         try {
             //이미지를 하나 골랐을때
-            if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && null != data) {
+            if (requestCode == PICK_IMAGE_REQUEST && resultCode == MainActivity.RESULT_OK && null != data) {
                 //data에서 절대경로로 이미지를 가져옴
 
                 uri = data.getData();
 
-                Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(),uri);
+
+                Bitmap bitmap = MediaStore.Images.Media.getBitmap(MainActivity.getContentResolver(),uri);
                 //이미지가 한계이상(?) 크면 불러 오지 못하므로 사이즈를 줄여 준다.
 
                 int nh = (int) (bitmap.getHeight() * (1024.0 / bitmap.getWidth()));
@@ -86,24 +96,23 @@ public class ImageManagement_mj extends AppCompatActivity {
                 base64(image, Bitmap.CompressFormat.JPEG, 100);
 
             } else {
-                Toast.makeText(this, "취소 되었습니다.", Toast.LENGTH_LONG).show();
+                Toast.makeText(MainActivity, "취소 되었습니다.", Toast.LENGTH_LONG).show();
             }
 
         } catch (Exception e) {
-            Toast.makeText(this, "Oops! 로딩에 오류가 있습니다.", Toast.LENGTH_LONG).show();
+            Toast.makeText(MainActivity, "Oops! 로딩에 오류가 있습니다.", Toast.LENGTH_LONG).show();
             e.printStackTrace();
         }
         String real_path=getRealImagePath(uri);
-        SendImage();
+        SendImage(real_path);
 
     }
     //실제파일 경로 가져오기
     public String getRealImagePath(Uri uri)
     {
-
         String[] proj = { MediaStore.Images.Media.DATA };
 
-        Cursor cursor = getContentResolver().query(uri, proj, null, null, null);
+        Cursor cursor = MainActivity.getContentResolver().query(uri, proj, null, null, null);
         int index=cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
         cursor.moveToFirst();
         String path=cursor.getString(index);
@@ -125,11 +134,10 @@ public class ImageManagement_mj extends AppCompatActivity {
     }
 
     //이미지 서버처리
-    HTTPConnecter connecter;
     String des="";
     //     //Send버튼 클릭시 이미지를 서버로 보냄.
-    public void SendImage(){
-        connecter=new HTTPConnecter("18.219.204.210", 55252);
+    public void SendImage(String path){
+        //connecter=new HTTPConnecter("18.219.204.210", 55252);
         des=encodedImage;
         try{
             Map<String, String> data=new HashMap<>();
@@ -137,7 +145,7 @@ public class ImageManagement_mj extends AppCompatActivity {
             data.put("image", des);
 
 
-            connecter.sendImage("/apptest/test", data, null, new HTTPConnecter.Callback() {
+            connecter.sendImage("/apptest/test", null, path, new HTTPConnecter.Callback() {
                 @Override
                 public Object DataReceived(String ReceiveString) {
                     return ReceiveString;
@@ -145,7 +153,7 @@ public class ImageManagement_mj extends AppCompatActivity {
 
                 @Override
                 public void HandlerMethod(Object obj) {
-                    Toast.makeText(getApplicationContext(), (String) obj, Toast.LENGTH_LONG).show();
+                    Toast.makeText(MainActivity.getApplicationContext(), (String) obj, Toast.LENGTH_LONG).show();
 
                 }
             });

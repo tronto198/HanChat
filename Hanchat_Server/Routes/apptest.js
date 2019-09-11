@@ -1,3 +1,5 @@
+const fs = require('fs');
+
 function senderrormsg(res, received){
   let Msg;
   if(received == undefined){
@@ -11,7 +13,7 @@ function senderrormsg(res, received){
       Msg = received.substring(0, 22) + "...";
     }
   }
-  res.status(501).send(`Error!   your msg : ${Msg} `);
+  res.end(`Error!   your msg : ${Msg} `);
 }
 
 const log = function (req, res, next){

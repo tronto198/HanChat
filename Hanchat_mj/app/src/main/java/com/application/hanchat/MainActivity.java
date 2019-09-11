@@ -1,6 +1,7 @@
 package com.application.hanchat;
 
 import android.content.Intent;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -47,9 +48,17 @@ public class MainActivity extends AppCompatActivity {
     // + 버튼 눌렀을때 실행됨(나 다른방법 써서 버튼 세팅 안할듯)
     public void loadImagefromGallery(View view) {
 
-        imageManagement=new ImageManagement_mj();
-
+        imageManagement=new ImageManagement_mj(this, connecter);
+        imageManagement.tedPermission();
+        imageManagement.loadImage();
 
     }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        imageManagement.onActivityResult(requestCode, resultCode, data);
+    }
+
     //이미지파일을 보내려면 /apptest/test로 sendImage
 }

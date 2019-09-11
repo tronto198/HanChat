@@ -7,7 +7,7 @@ const conn = require('./Connecter/Connecter.js');
 const Connecter = new conn();
 
 Connecter.query('Select * from tester', (err, rows, fields)=>{
-  console.log(rows);
+  //console.log(rows);
 });
 
 class app{
