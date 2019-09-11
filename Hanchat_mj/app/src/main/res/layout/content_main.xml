@@ -46,7 +46,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="#ffffff"
-            android:text="사진" />
+            android:text="사진"
+            android:onClick="loadImagefromGallery" />
 
         <EditText
             android:id="@+id/et_chat"
