@@ -50,7 +50,7 @@ module.exports = function(Connecter){
 
     const text = body.text;
     if(text == "" || text == undefined){
-      res.send("nothing");
+      res.send("send nothing");
       return;
     }
     Connecter.sendtoDialogflow(text, 'apptest-id').then((r)=>{
@@ -111,13 +111,27 @@ module.exports = function(Connecter){
     console.log('file -');
     console.log(req.file);
 
-    const description = fs.readFileSync(Connecter.uploadpath + file.filename);
+    if(file == undefined){
+      res.end('file not found');
+      return;
+    }
 
-    var encoded = Buffer.from(description).toString('base64');
+    const filepath = Connecter.uploadpath + file.filename;
+    console.log('filepath : ' + filepath);
+    const filedata = fs.readFileSync(filepath);
 
-    Connecter.sendtoVision(encoded).then((r) =>{
+
+    var encodeddata = Buffer.from(filedata).toString('base64');
+
+    Connecter.sendtoVision(encodeddata).then((r) =>{
         console.log(r);
-        res.send(r.textAnnotations[0].description);
+        if(r.textAnnotations == null){
+          res.end('글을 인식하지 못했습니다.');
+        }
+        else{
+          res.send(r.textAnnotations[0].description);
+        }
+
       })
       .catch(err =>{
         console.log(err);
