@@ -2,10 +2,15 @@ package com.application.hanchat;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.view.GravityCompat;
+import android.support.v7.app.ActionBarDrawerToggle;
+import android.view.MenuItem;
 import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarDrawerToggle;
+
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -29,6 +34,7 @@ public class MainActivity extends NavActivity
     ChatAdapter chatAdapter;
     ListView chating_list;
     String chat = "";
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,7 +64,7 @@ public class MainActivity extends NavActivity
         // 임시 코드
         chatAdapter.add(0, "안녕하세요 HANCHAT 임시UI입니다!");
         chatAdapter.add(1,"내일 11시에 은행동에서 친구랑 만나");
-        chatAdapter.add(0, "아직 기능은 구현되지 않았습니다.");
+        chatAdapter.add(0, "아직 기능은 구현되지 않았습니다.(여기까지 MainActivity 65번째줄 임시 코드)");
 
         connecter = new HTTPConnecter(IP, 55252);
 
@@ -111,6 +117,4 @@ public class MainActivity extends NavActivity
         super.onActivityResult(requestCode, resultCode, data);
         imageManagement.onActivityResult(requestCode, resultCode, data);
     }
-
-    //이미지파일을 보내려면 /apptest/test로 sendImage
 }

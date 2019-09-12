@@ -26,7 +26,7 @@ public class NavActivity extends AppCompatActivity
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         //getMenuInflater().inflate(R.menu.chat, menu);
-        return true;
+        return false;
     }
 
 //    //우측 상단에 메뉴 선택해 이용
@@ -47,8 +47,10 @@ public class NavActivity extends AppCompatActivity
 
 
     // 그룹 보여주는 부분
+    @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
+        // Handle navigation view item clicks here.
         int id = item.getItemId();
 
         if (id == R.id.nav_home) {
