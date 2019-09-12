@@ -1,5 +1,6 @@
 package com.application.hanchat;
 
+import android.support.constraint.solver.widgets.ChainHead;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.EditText;
@@ -11,19 +12,22 @@ import java.util.Map;
 public class ButtonAction implements View.OnClickListener {
     HTTPConnecter connecter;
     AppCompatActivity Activity;
-    EditText tb_des;
-    String des;
+    EditText et_chat;
+    ChatAdapter chatAdapter;
 
-    public ButtonAction(AppCompatActivity Activity, HTTPConnecter connecter, EditText des) {
+    public ButtonAction(AppCompatActivity Activity, HTTPConnecter connecter, EditText et, ChatAdapter chatAdapter) {
         this.connecter = connecter;
-        this.tb_des = des;
+        this.et_chat = et;
         this.Activity = Activity;
+        this.chatAdapter = chatAdapter;
     }
 
     @Override
     public void onClick(View v) {
-        des = tb_des.getText().toString();
-        //view.setText("");
+        String des = et_chat.getText().toString();
+        chatAdapter.add(1, des);    // 0은 챗봇, 1은 사용자
+        et_chat.setText(null);
+        chatAdapter.notifyDataSetChanged(); // 데이터 변화 시 갱신해 줌
 
         try{
             //서버로 보낼 내용 : des
@@ -56,7 +60,10 @@ public class ButtonAction implements View.OnClickListener {
                 @Override
                 public void HandlerMethod(Object obj) {
                     //위의 함수에서 받은 내용을 토스트메시지로 출력
-                    Toast.makeText(Activity.getApplicationContext(), (String) obj, Toast.LENGTH_LONG).show();
+                    String answer = (String) obj;
+                    Toast.makeText(Activity.getApplicationContext(), answer, Toast.LENGTH_LONG).show();
+                    chatAdapter.add(0, answer);
+                    chatAdapter.notifyDataSetChanged(); // 데이터 변화 시 갱신해 줌
                     //view.append((String) obj);
                 }
             });

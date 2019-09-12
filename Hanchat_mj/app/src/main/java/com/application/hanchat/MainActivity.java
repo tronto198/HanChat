@@ -88,19 +88,7 @@ public class MainActivity extends NavActivity
         });
 
         // 채팅 전송
-        bt_chat.setOnClickListener(new ButtonAction(this, connecter, et_chat) {
-            @Override
-            public void onClick(View v) {
-                super.onClick(v);
-                chat = et_chat.getText().toString();
-
-                chatAdapter.add(1, chat);    // 0은 챗봇, 1은 사용자
-                et_chat.setText(null);
-
-                chatAdapter.notifyDataSetChanged(); // 데이터 변화 시 갱신해 줌
-
-            }
-        });
+        bt_chat.setOnClickListener(new ButtonAction(this, connecter, et_chat, chatAdapter));
     }
 
     // + 버튼 눌렀을때 실행됨(나 다른방법 써서 버튼 세팅 안할듯)
