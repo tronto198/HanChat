@@ -13,6 +13,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
 
@@ -42,16 +43,29 @@ class HTTPConnecter {
         //함수 실행 순서 : DataReceived  ->  UIChange
     }
 
+    private static Map<String, HTTPConnecter> instanceMap = new HashMap<String, HTTPConnecter>();
 
     private Handler handler;
     private String Host;
 
     //생성자로 ip주소, 포트번호를 전달받음
-    HTTPConnecter(String Hostip, int Port){
+    private HTTPConnecter(String Hostip, int Port){
         Host = "http://" + Hostip + ":" + Port;
         this.handler = new Handler();
     }
 
+    //ip주소, 포트번호를 전달받음
+    static HTTPConnecter getinstance(String Hostip, int Port){
+        String host = "http://" + Hostip + ":" + Port;
+        if(instanceMap.containsKey(host)){
+            return instanceMap.get(host);
+        }
+        else{
+            HTTPConnecter newinstance = new HTTPConnecter(Hostip, Port);
+            instanceMap.put(host, newinstance);
+            return newinstance;
+        }
+    }
 
     //Post 형식으로 전달할때
     //Pathname : 주소에서 /로 시작해서 ? 전까지의 부분 (ex : "/chatbot_data"), Map과 통신 이후에 수행할 콜백을 받음
@@ -87,7 +101,6 @@ class HTTPConnecter {
         th_Sender.SetCallback(callback);
         th_Sender.start();
     }
-
 
     void sendImage(String Pathname, Map<String, String> data, String filepath, Callback callback){
         ImageSender th_Sender = new ImageSender();
@@ -235,7 +248,6 @@ class HTTPConnecter {
         }
 
     }
-
 
     private class ImageSender extends Sender {
         final private String lineEnd = "\r\n";

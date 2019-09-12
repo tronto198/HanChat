@@ -40,7 +40,7 @@ public class MainActivity extends NavActivity
         intent = new Intent(MainActivity.this, CalendarActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
 
-        connecter = new HTTPConnecter(IP, 55252);
+        connecter = HTTPConnecter.getinstance(IP, 55252);
         bt_go_cal = findViewById(R.id.bt_go_cal);
         et_chat = findViewById(R.id.et_chat);
         bt_chat = findViewById(R.id.bt_chat);
