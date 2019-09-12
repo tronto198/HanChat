@@ -13,11 +13,14 @@ public class CalendarActivity extends NavActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     Button bt_go_chat;
+    Intent intent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_calendar);
+        intent = new Intent(CalendarActivity.this, MainActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
 
         // 앱 상단 툴바
         Toolbar toolbar = findViewById(R.id.toolbar);
@@ -43,7 +46,8 @@ public class CalendarActivity extends NavActivity
         bt_go_chat.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(CalendarActivity.this, MainActivity.class);
+
+                //intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intent);
             }
         });
