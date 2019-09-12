@@ -48,14 +48,14 @@ public class MainActivity extends NavActivity
         toggle.syncState();
         navigationView.setNavigationItemSelectedListener(this);
 
-        // 채팅 리스트 관리하는 어댑터 객체 생성 Toast.makeText(MainActivity.this, "You clicked on ImageView", Toast.LENGTH_LONG).show();
-        //
+        // 채팅 리스트 관리하는 어댑터 객체 생성
         chatAdapter =  new ChatAdapter();
         chating_list = (ListView) findViewById(R.id.chating_list);
         chating_list.setTranscriptMode(ListView.TRANSCRIPT_MODE_ALWAYS_SCROLL); //스크롤을 늘 리스트뷰의 제일 마지막으로
         chating_list.setStackFromBottom(true);  //아래로 계속 생성되도록 함
         chating_list.setAdapter(chatAdapter);
 
+        // 임시 코드
         chatAdapter.add(0, "안녕하세요 HANCHAT 임시UI입니다!");
         chatAdapter.add(1,"내일 11시에 은행동에서 친구랑 만나");
         chatAdapter.add(0, "아직 기능은 구현되지 않았습니다.");
@@ -82,10 +82,10 @@ public class MainActivity extends NavActivity
         });
 
         // 채팅 전송
-        // 계속중단 에러 발생
         bt_chat.setOnClickListener(new ButtonAction(this, connecter, et_chat) {
             @Override
             public void onClick(View v) {
+                super.onClick(v);
                 chat = et_chat.getText().toString();
 
                 chatAdapter.add(1, chat);    // 0은 챗봇, 1은 사용자
