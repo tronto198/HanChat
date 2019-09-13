@@ -8,6 +8,7 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 
 public class CalendarActivity extends NavActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -44,6 +45,7 @@ public class CalendarActivity extends NavActivity
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(CalendarActivity.this, MainActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(intent);
             }
         });
