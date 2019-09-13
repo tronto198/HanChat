@@ -79,7 +79,7 @@ public class MainActivity extends NavActivity
         // 임시 코드
         chatAdapter.add(0, "안녕하세요 HANCHAT 임시UI입니다!");
         chatAdapter.add(1,"내일 11시에 은행동에서 친구랑 만나");
-        chatAdapter.add(0, "아직 기능은 구현되지 않았습니다.(여기까지 MainActivity 65번째줄 임시 코드)");
+        chatAdapter.add(0, "아직 기능은 구현되지 않았습니다.");
         chatAdapter.add(1, "onCreate");
         chatAdapter.notifyDataSetChanged();
     }
