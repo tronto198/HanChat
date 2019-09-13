@@ -47,6 +47,7 @@ public class CalendarActivity extends NavActivity
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(CalendarActivity.this, MainActivity.class);
+                //intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intent);
             }
         });
