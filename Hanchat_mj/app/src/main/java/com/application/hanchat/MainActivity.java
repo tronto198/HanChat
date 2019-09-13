@@ -21,26 +21,32 @@ public class MainActivity extends NavActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     HTTPConnecter connecter;
-
     ImageManagement_mj imageManagement;
 
     final String IP = "18.219.204.210";
 
     Button bt_go_cal;
-
     EditText et_chat;
     Button bt_chat;
     Button bt_image;
 
     ChatAdapter chatAdapter;
     ListView chating_list;
-    String chat = "";
-
+    Intent intent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        intent = new Intent(MainActivity.this, CalendarActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+
+        connecter = HTTPConnecter.getinstance(IP, 55252);
+        bt_go_cal = findViewById(R.id.bt_go_cal);
+        et_chat = findViewById(R.id.et_chat);
+        bt_chat = findViewById(R.id.bt_chat);
+        bt_image = findViewById(R.id.bt_image);
+
 
         // 앱 상단 툴바
         Toolbar toolbar = findViewById(R.id.toolbar);
@@ -55,6 +61,13 @@ public class MainActivity extends NavActivity
         toggle.syncState();
         navigationView.setNavigationItemSelectedListener(this);
 
+
+        ChatAdapterSetting();
+        ButtonSetting();
+    }
+
+    private void ChatAdapterSetting(){
+
         // 채팅 리스트 관리하는 어댑터 객체 생성
         chatAdapter =  new ChatAdapter();
         chating_list = (ListView) findViewById(R.id.chating_list);
@@ -66,15 +79,8 @@ public class MainActivity extends NavActivity
         chatAdapter.add(0, "안녕하세요 HANCHAT 임시UI입니다!");
         chatAdapter.add(1,"내일 11시에 은행동에서 친구랑 만나");
         chatAdapter.add(0, "아직 기능은 구현되지 않았습니다.(여기까지 MainActivity 65번째줄 임시 코드)");
-
-        connecter = new HTTPConnecter(IP, 55252);
-
-        bt_go_cal = findViewById(R.id.bt_go_cal);
-        et_chat = findViewById(R.id.et_chat);
-        bt_chat = findViewById(R.id.bt_chat);
-        bt_image = findViewById(R.id.bt_image);
-
-        ButtonSetting();
+        chatAdapter.add(1, "onCreate");
+        chatAdapter.notifyDataSetChanged();
     }
     //버튼 세팅들은 여기에
     private void ButtonSetting(){
@@ -82,31 +88,21 @@ public class MainActivity extends NavActivity
         bt_go_cal.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(MainActivity.this, CalendarActivity.class);
+
                 startActivity(intent);
+
+
             }
         });
 
         // 채팅 전송
-        bt_chat.setOnClickListener(new ButtonAction(this, connecter, et_chat) {
-            @Override
-            public void onClick(View v) {
-                super.onClick(v);
-                chat = et_chat.getText().toString();
-
-                chatAdapter.add(1, chat);    // 0은 챗봇, 1은 사용자
-                et_chat.setText(null);
-
-                chatAdapter.notifyDataSetChanged(); // 데이터 변화 시 갱신해 줌
-
-            }
-        });
+        bt_chat.setOnClickListener(new ButtonAction(this, connecter, et_chat, chatAdapter));
+        imageManagement=new ImageManagement_mj(this, connecter);
     }
 
     // + 버튼 눌렀을때 실행됨(나 다른방법 써서 버튼 세팅 안할듯)
     public void loadImagefromGallery(View view) {
 
-        imageManagement=new ImageManagement_mj(this, connecter);
         imageManagement.tedPermission();
         imageManagement.loadImage();
 
