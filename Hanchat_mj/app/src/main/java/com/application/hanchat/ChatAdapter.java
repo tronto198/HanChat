@@ -104,13 +104,13 @@ public class ChatAdapter extends BaseAdapter {
         chattextView.setText(chat_list.get(i).text);
 
         if (chat_list.get(i).talker == 0) {
-            //textView.setBackgroundResource(R.drawable.); // 챗봇이 말하는 상황의 백그라운드 이미지
+            chattextView.setBackgroundResource(R.drawable.chatbubble_left); // 챗봇이 말하는 상황의 백그라운드 이미지
             layout.setGravity(Gravity.LEFT);
             viewRight.setVisibility(View.GONE);
             viewLeft.setVisibility(View.GONE);
         }
         else if (chat_list.get(i).talker == 1) {
-            //textView.setBackgroundResource(R.drawable.); // 사용자가 말하는 상황의 백그라운드 이미지
+            chattextView.setBackgroundResource(R.drawable.chatbubble_right); // 사용자가 말하는 상황의 백그라운드 이미지
             layout.setGravity(Gravity.RIGHT);
             viewRight.setVisibility(View.GONE);
             viewLeft.setVisibility(View.GONE);
