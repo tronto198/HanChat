@@ -20,10 +20,10 @@
 
         <Button
             android:id="@+id/bt_go_cal"
-            android:layout_width="35dp"
-            android:layout_height="35dp"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
             android:layout_gravity="end"
-            android:background="@drawable/ic_launcher_calendar"
+            android:background="@drawable/calendar"
 
             tools:layout_editor_absoluteX="2dp"
             tools:layout_editor_absoluteY="5dp"

@@ -14,7 +14,6 @@ import android.view.Menu;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.ListView;
 
 public class MainActivity extends NavActivity
@@ -82,6 +81,7 @@ public class MainActivity extends NavActivity
         chatAdapter.add(1, "onCreate");
         chatAdapter.notifyDataSetChanged();
     }
+
     //버튼 세팅들은 여기에
     private void ButtonSetting(){
         // 우측 상단 버튼 (캘린더 화면으로 이동)

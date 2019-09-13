@@ -1,20 +1,15 @@
 package com.application.hanchat;
 
-import android.content.Intent;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.ImageButton;
-import android.widget.ImageView;
 
 //네비게이션 서랍(그룹)을 볼 수 있는 모든 액티비티는 이 액티비티를 상속받아 이용함
 public class NavActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
-
 
     @Override
     public void onBackPressed() {
