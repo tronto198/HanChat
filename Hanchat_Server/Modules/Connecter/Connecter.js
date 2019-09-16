@@ -8,36 +8,15 @@ const Dialogflow_ProjectId = 'newagent-fxhlqn';
 const Dialogflow_keyfilePath = path.join(__dirname, '..', 'Data/JSON/APIkey-Dialogflow.json');
 const TextDetector_keyfilePath = path.join(__dirname, '..', 'Data/JSON/APIkey-GCPVision.json');
 const Database_ConfigPath = path.join(__dirname, '..', 'Data/JSON/DB-Test.json');
-const uploadpath = path.join(__dirname, '..', 'upload/');
 
-const moment = require('moment');
-require('moment-timezone');
-moment.tz.setDefault("Asia/Seoul");
-
-var Dialogflow = false;
-var Vision = false;
 
 class Connecter {
   constructor() {
-    this.printtime();
     console.log('connecting...');
 
     this.Dialogflowapi = new dialogflow(Dialogflow_ProjectId, keytoconfig(Dialogflow_keyfilePath));
     this.Visionapi = new gcpvision(keytoconfig(TextDetector_keyfilePath));
     this.Database = new database(Database_ConfigPath);
-
-    this.uploadpath = uploadpath;
-    const multer = require('multer');
-    const storage = multer.diskStorage({
-      destination: function(req, file, cb){
-        console.log(uploadpath);
-        cb(null, uploadpath);
-      },
-      filename: function(req, file, cb){
-        cb(null, file.originalname);
-      }
-    });
-    this.upload = multer({storage : storage});
 
   }
 
@@ -53,39 +32,6 @@ class Connecter {
 
    query(query, callback){
     this.Database.query(query, callback);
-  }
-
-  test(){
-
-        this.sendtoDialogflow('안녕', 'start-id').then((r) =>{
-            //console.log(r);
-            if(r.queryResult.action == 'input.welcome'){
-              console.log('Dialogflow connected');
-            }
-          })
-          .catch((err)=>{
-            console.log(err);
-            console.log('Dialogflow connection failed');
-          });
-
-        const fs = require('fs');
-        var data = fs.readFileSync(path.join(__dirname,'..','Data','TestImage','Testdata2.txt'),'utf-8');
-
-        this.sendtoVision(data).then((r) =>{
-          //console.log(r);
-          if(r.error == null && r.textAnnotations != null){
-            console.log('Visionapi connected');
-          }
-          else if(r.error != null){
-            throw new Error(r.error);
-          }
-        })
-        .catch((err)=>{
-          console.log(err);
-          console.log('Visionapi connection failed');
-        });
-
-
   }
 
   async test2(){
@@ -112,13 +58,9 @@ class Connecter {
 
   }
 
-
-  printtime(){
-    console.log(moment().format('YYYY-MM-DD HH:mm:ss'));
-  }
 }
 
-module.exports = Connecter;
+module.exports = new Connecter();
 
 /*
 ddd = new Connecter('hello');

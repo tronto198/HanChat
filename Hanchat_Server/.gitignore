@@ -77,7 +77,10 @@ typings/
 
 
 #api key files
-Data/JSON/*
+*.json
 
 #upload files
 upload/*
+
+#jshint settings
+.jshintrc

@@ -54,4 +54,4 @@ class layout{
 }
 
 
-module.exports = layout;
+module.exports = new layout();

@@ -43,14 +43,14 @@ class HTTPConnecter {
         //함수 실행 순서 : DataReceived  ->  UIChange
     }
 
-    private static Map<String, HTTPConnecter> instanceMap = new HashMap<String, HTTPConnecter>();
+    private static Map<String, HTTPConnecter> instanceMap = new HashMap<>();
 
     private Handler handler;
     private String Host;
 
     //생성자로 ip주소, 포트번호를 전달받음
-    private HTTPConnecter(String Hostip, int Port){
-        Host = "http://" + Hostip + ":" + Port;
+    private HTTPConnecter(String Host){
+        this.Host = Host;
         this.handler = new Handler();
     }
 
@@ -61,7 +61,7 @@ class HTTPConnecter {
             return instanceMap.get(host);
         }
         else{
-            HTTPConnecter newinstance = new HTTPConnecter(Hostip, Port);
+            HTTPConnecter newinstance = new HTTPConnecter(host);
             instanceMap.put(host, newinstance);
             return newinstance;
         }
