@@ -89,11 +89,13 @@ public class ImageManagement_mj{//} extends AppCompatActivity {
                 Bitmap bitmap = MediaStore.Images.Media.getBitmap(MainActivity.getContentResolver(),uri);
                 //이미지가 한계이상(?) 크면 불러 오지 못하므로 사이즈를 줄여 준다.
 
+
                 int nh = (int) (bitmap.getHeight() * (1024.0 / bitmap.getWidth()));
                 image= Bitmap.createScaledBitmap(bitmap, 1024, nh, true);
 
+
                 //base64
-                base64(image, Bitmap.CompressFormat.JPEG, 100);
+                //base64(image, Bitmap.CompressFormat.JPEG, 100);
 
             } else {
                 Toast.makeText(MainActivity, "취소 되었습니다.", Toast.LENGTH_LONG).show();
@@ -103,8 +105,9 @@ public class ImageManagement_mj{//} extends AppCompatActivity {
             Toast.makeText(MainActivity, "Oops! 로딩에 오류가 있습니다.", Toast.LENGTH_LONG).show();
             e.printStackTrace();
         }
-        String real_path=getRealImagePath(uri);
-        SendImage(real_path);
+        //String real_path=getRealImagePath(uri);
+        //SendImage(real_path);
+        SendImage(image);
 
     }
     //실제파일 경로 가져오기
@@ -163,5 +166,31 @@ public class ImageManagement_mj{//} extends AppCompatActivity {
         }
     }
 
+    public void SendImage(Bitmap bitmap){
+
+
+        try{
+            Map<String, String> data=new HashMap<>();
+
+            //data.put("image", des);
+
+
+            connecter.sendImage("/apptest/test", null, bitmap, new HTTPConnecter.Callback() {
+                @Override
+                public Object DataReceived(String ReceiveString) {
+                    return ReceiveString;
+                }
+
+                @Override
+                public void HandlerMethod(Object obj) {
+                    Toast.makeText(MainActivity.getApplicationContext(), (String) obj, Toast.LENGTH_LONG).show();
+
+                }
+            });
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
+    }
 
 }

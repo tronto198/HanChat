@@ -9,16 +9,38 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 //네비게이션 서랍(그룹)을 볼 수 있는 모든 액티비티는 이 액티비티를 상속받아 이용함
 public class NavActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
     protected ImageView img_profile;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.nav_header);
+
+        View img_profile = findViewById(R.id.img_profile);
+        ViewGroup dd = findViewById(R.id.nav_view);
+        dd.setOnClickListener(new View.OnClickListener() {
+               @Override
+               public void onClick(View v) {
+                   Toast.makeText(NavActivity.this, "test", Toast.LENGTH_SHORT).show();
+                   test();
+               }
+           }
+        );
+    }
+
+    public void test(){
+        Intent intent = new Intent(NavActivity.this, CalendarActivity.class);
+
+        startActivity(intent);
     }
 
     @Override

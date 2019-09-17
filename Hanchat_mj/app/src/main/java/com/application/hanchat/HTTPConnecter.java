@@ -1,10 +1,12 @@
 package com.application.hanchat;
 
+import android.graphics.Bitmap;
 import android.os.Handler;
 
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
+import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
 import java.io.FileInputStream;
 import java.io.InputStreamReader;
@@ -106,6 +108,14 @@ class HTTPConnecter {
         ImageSender th_Sender = new ImageSender();
         th_Sender.SetConnection(Host + Pathname);
         th_Sender.SetMessage(data, filepath);
+        th_Sender.SetCallback(callback);
+        th_Sender.start();
+    }
+
+    void sendImage(String Pathname, Map<String, String> data, Bitmap bitmap, Callback callback){
+        ImageSender th_Sender = new ImageSender();
+        th_Sender.SetConnection(Host + Pathname);
+        th_Sender.SetMessage(data, bitmap);
         th_Sender.SetCallback(callback);
         th_Sender.start();
     }
@@ -255,6 +265,7 @@ class HTTPConnecter {
         final private String boundary;
 
         private String filepath = null;
+        private Bitmap bitmap = null;
 
         ImageSender() {
 
@@ -295,6 +306,12 @@ class HTTPConnecter {
             this.filepath = filepath;
         }
 
+        void SetMessage(Map<String, String> map, Bitmap bitmap) {
+            super.SetMessage(map);
+            this.bitmap = bitmap;
+        }
+
+
         @Override
         protected void sendMessage(HttpURLConnection conn) throws Exception {
 
@@ -325,7 +342,18 @@ class HTTPConnecter {
 
 
             //이미지 전송
-            if(filepath != null) {
+            if(bitmap != null){
+                ds.writeBytes(msgbegin);
+                ds.writeBytes("Content-Disposition: form-data; name=\"userimage\"; filename=\"imagefile\"");
+                ds.writeBytes(lineEnd + lineEnd);
+
+                ByteArrayOutputStream os = new ByteArrayOutputStream();
+                bitmap.compress(Bitmap.CompressFormat.PNG, 100, os);
+                ds.write(os.toByteArray());
+                os.close();
+
+            }
+            else if(filepath != null) {
 
                 byte[] buffer;
                 int maxBufferSize = 5 * 1024 * 1024;
