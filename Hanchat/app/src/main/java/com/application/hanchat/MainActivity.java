@@ -97,7 +97,7 @@ public class MainActivity extends NavActivity
 
         // 채팅 전송
         bt_chat.setOnClickListener(new ButtonAction(this, connecter, et_chat, chatAdapter));
-        imageManagement=new ImageManagement_mj(this, connecter);
+        imageManagement=new ImageManagement_mj(this, connecter, chatAdapter);
     }
 
     // + 버튼 눌렀을때 실행됨(나 다른방법 써서 버튼 세팅 안할듯)

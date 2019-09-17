@@ -25,16 +25,6 @@ public class NavActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.nav_header);
 
-        View img_profile = findViewById(R.id.img_profile);
-        ViewGroup dd = findViewById(R.id.nav_view);
-        dd.setOnClickListener(new View.OnClickListener() {
-               @Override
-               public void onClick(View v) {
-                   Toast.makeText(NavActivity.this, "test", Toast.LENGTH_SHORT).show();
-                   test();
-               }
-           }
-        );
     }
 
     public void test(){

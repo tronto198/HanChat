@@ -33,10 +33,12 @@ public class ImageManagement_mj{//} extends AppCompatActivity {
     static final String TAG = "MainActivity";
     AppCompatActivity MainActivity;
     HTTPConnecter connecter;
+    ChatAdapter chatAdapter;
 
-    ImageManagement_mj(AppCompatActivity Activity, HTTPConnecter connecter){
+    ImageManagement_mj(AppCompatActivity Activity, HTTPConnecter connecter, ChatAdapter chatAdapter){
         MainActivity = Activity;
         this.connecter = connecter;
+        this.chatAdapter = chatAdapter;
         //Activity.onActivityResult += this.onActivityResult;
     }
 
@@ -156,8 +158,9 @@ public class ImageManagement_mj{//} extends AppCompatActivity {
 
                 @Override
                 public void HandlerMethod(Object obj) {
-                    Toast.makeText(MainActivity.getApplicationContext(), (String) obj, Toast.LENGTH_LONG).show();
-
+                    //Toast.makeText(MainActivity.getApplicationContext(), (String) obj, Toast.LENGTH_LONG).show();
+                    chatAdapter.add(0, (String) obj);
+                    chatAdapter.notifyDataSetChanged();
                 }
             });
         }
@@ -183,8 +186,9 @@ public class ImageManagement_mj{//} extends AppCompatActivity {
 
                 @Override
                 public void HandlerMethod(Object obj) {
-                    Toast.makeText(MainActivity.getApplicationContext(), (String) obj, Toast.LENGTH_LONG).show();
-
+                    //Toast.makeText(MainActivity.getApplicationContext(), (String) obj, Toast.LENGTH_LONG).show();
+                    chatAdapter.add(0, (String) obj);
+                    chatAdapter.notifyDataSetChanged();
                 }
             });
         }
